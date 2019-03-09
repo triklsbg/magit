@@ -686,7 +686,8 @@ and `:slant'."
    (magit-diff:-C)
    ("-x" "Disallow external diff drivers" "--no-ext-diff")
    ("-s" "Show stats"                     "--stat")
-   (5 magit-diff:--color-moved)]
+   (5 magit-diff:--color-moved)
+   (5 magit-diff:--color-moved-ws)]
   ["Actions"
    [("d" "Dwim"          magit-diff-dwim)
     ("r" "Diff range"    magit-diff-range)
@@ -717,7 +718,8 @@ and `:slant'."
    ("-x" "Disallow external diff drivers" "--no-ext-diff")
    ("-s" "Show stats"                     "--stat"
     :if-derived magit-diff-mode)
-   (5 magit-diff:--color-moved)]
+   (5 magit-diff:--color-moved)
+   (5 magit-diff:--color-moved-ws)]
   ["Actions"
    [("g" "Refresh"                magit-diff-do-refresh)
     ("s" "Set defaults"           magit-diff-set-default-arguments)
@@ -859,6 +861,21 @@ and `:slant'."
     (?b "[b]locks"  "blocks")
     (?z "[z]ebra"   "zebra")
     (?Z "[Z] dimmed-zebra" "dimmed-zebra")))
+
+(define-infix-argument magit-diff:--color-moved-ws ()
+  :description "Whitespace treatment for --color-moved"
+  :class 'transient-option
+  :key "=w"
+  :argument "--color-moved-ws="
+  :reader 'magit-diff-select-color-moved-ws-mode)
+
+(defun magit-diff-select-color-moved-ws-mode (&rest _ignore)
+  (magit-read-char-case "Ignore whitespace " t
+    (?i "[i]ndentation"  "allow-indentation-change")
+    (?e "[e]nd of line"  "ignore-space-at-eol")
+    (?s "[s]pace change" "ignore-space-change")
+    (?a "[a]ll space"    "ignore-all-space")
+    (?n "[n]o"           "no")))
 
 ;;;; Diff commands
 
